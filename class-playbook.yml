@@ -1,0 +1,68 @@
+---
+- hosts: Dev
+  become: yes
+
+  tasks:
+    - name: Update packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Java 17
+      dnf:
+        name: java-17-amazon-corretto-devel
+        state: latest
+
+    - name: Ensure group "tomcat group" exist
+      group: 
+        name: tomcat
+        state: present
+
+    - name: create a tomcat user
+      user:
+        name: tomcat
+        shell: /bin/false
+        group: tomcat
+
+    - name: Create a itomcat directory and Grant permission
+      file:
+        path: /opt/tomcat
+        state: directory
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+        recurse: yes
+
+    - name: Download tomcat
+      get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz
+        dest: /opt/tomcat
+
+    - name: Unarchive a file that is already on the remote machine
+      unarchive:
+        src: /opt/tomcat/apache-tomcat-9.0.76.tar.gz
+        dest: /opt/tomcat/
+        remote_src: yes
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+
+    
+    - name: Remove file (delete file)
+      file:
+        path: /opt/tomcat/apache-tomcat-9.0.76.tar.gz
+        state: absent
+
+    - name: reload tomcat service
+      systemd:
+        daemon_reload: yes
+
+    - name: download jenkins
+      get_url:
+        url: https://get.jenkins.io/war/2.417/jenkins.war
+        dest: /opt/tomcat/apache-tomcat-9.0.76/webapps
+        owner: root
+        group: root
+        mode: 0755
+
+

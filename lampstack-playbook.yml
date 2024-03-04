@@ -1,0 +1,8 @@
+---
+- hosts: lampserver
+  become: true
+  
+  task: 
+   - name: Install Apache server
+     ansible.builtin.yum: name=httpd state=present
+

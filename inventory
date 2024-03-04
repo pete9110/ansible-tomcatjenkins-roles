@@ -1,0 +1,11 @@
+[all:vars]
+ansible_ssh_pass=ansible
+ansible_host_connection=inventory
+
+[local]
+127.0.0.1 ansible_connection=local
+
+
+[Dev]
+10.0.24.196
+10.0.28.5
