@@ -9,3 +9,8 @@ ansible_host_connection=inventory
 [Dev]
 10.0.24.196
 10.0.28.5
+
+
+[Test]
+10.0.19.53
+
