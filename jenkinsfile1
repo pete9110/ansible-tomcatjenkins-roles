@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/pete9110/ansible-tomcatjenkins-roles.git'
+            }
+        }
+        stage('Tomcat playbook') {
+            steps {
+             ansiblePlaybook become: true, credentialsId: 'ansible-credential', installation: 'ansible1', inventory: '/home/tomcat/.jenkins/workspace/test-pipeline/inventory', playbook: '/home/tomcat/.jenkins/workspace/test-pipeline/playbook-roles.yml', vaultTmpPath: ''
+            }
+        }
+        
+    }
+}
+
