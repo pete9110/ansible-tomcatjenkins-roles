@@ -6,7 +6,7 @@
         state: latest
 
     - name: Install Java 17
-      dnf:
+      yum:
         name: java-17-amazon-corretto-devel
         state: latest
 
